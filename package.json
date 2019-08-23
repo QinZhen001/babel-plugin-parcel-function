@@ -1,0 +1,18 @@
+{
+  "name": "babel-plugin-parcel-function",
+  "version": "1.0.0",
+  "description": "a babel-plugin for parcel function",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "qz",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-traverse": "^6.26.0",
+    "babel-types": "^6.26.0",
+    "jest": "^24.9.0"
+  },
+  "dependencies": {}
+}
