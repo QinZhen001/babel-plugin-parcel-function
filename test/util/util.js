@@ -11,6 +11,12 @@ function testPlugin(code, presets, plugins, options = {}) {
 }
 
 
+function removeSpace(str) {
+  return str.replace(/\s*/g, "");
+}
+
+
 module.exports = {
-  testPlugin
+  testPlugin,
+  removeSpace
 }
