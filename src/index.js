@@ -1,5 +1,5 @@
 const t = require("babel-types")
-const {isString, isArray} = require("./util")
+const {isString, isArray, getPathSuffix} = require("./util")
 
 const DEFAULT_NAMES_ARRAY = ["global", "hotUpdate"]
 
@@ -13,92 +13,86 @@ function createMemberExpression(arr) {
   }
 }
 
-function getNamesArr(globalName) {
-  let namesArr = []
+
+/**
+ * 根据options和fileName生成memberExpression
+ * @param{Object} options
+ *      {Array|String} prefixName 前缀
+ *      {Boolean} addFileName 是否加上文件名
+ * @param{String} fileName
+ * @returns {*}
+ */
+function dealOptions(options, fileName) {
+  // console.log("options", options)
+  let namesArr = DEFAULT_NAMES_ARRAY
+  let globalName = options.prefixName
   if (globalName) {
     if (isString(globalName)) {
       namesArr = globalName.split(".")
     } else if (isArray(globalName)) {
       namesArr = globalName
     }
-  } else {
-    namesArr = DEFAULT_NAMES_ARRAY
   }
-  return namesArr
+  if (options.addFileName && fileName) {
+    namesArr.push(fileName)
+  }
+  return createMemberExpression(namesArr)
 }
 
+const functionVisitor = {
+  Function(path, state) {
+    let node = path.node
+    let id = node.id
+    // 函数参数
+    let params = node.params
+    //函数主体
+    let funcBody = node.body.body
+    //是否是generator
+    let generator = node.generator
+    //是否是async
+    let async = node.async
 
-function dealOptions(options) {
-  // console.log("options", options)
-  let namesArr = getNamesArr(options.globalName)
-  let ifMemberExpression = namesArr.length === 1 ? t.identifier(namesArr[0]) : createMemberExpression(namesArr)
-  // console.log("ifMemberExpression", ifMemberExpression)
-  return {ifMemberExpression}
-}
+    let testExpression = id ? t.memberExpression(this.memberExpression, id) : this.memberExpression
 
+    let finalCallMemberExpression = t.memberExpression(testExpression, t.identifier("call"))
 
-function getIfBlockStatement(callee, params) {
-  return t.blockStatement([
-    t.expressionStatement(t.callExpression(callee, params))
-  ])
-}
+    let finalCallParams = [t.thisExpression()]
 
+    if (params) {
+      finalCallParams = finalCallParams.concat(params)
+    }
 
-function replaceFunc(path, state) {
-  // 处理接收到的options
-  const {ifMemberExpression} = dealOptions(state.opts)
-  let node = path.node
-  // console.log("path.node", node)
-  let funcId = node.id
-  let funcName = node.id.name  //函数名
-  // console.log("node.id", funcName)
-  let funcParams = node.params // 函数参数
-  // console.log("node.params", funcParams)
-  let funcWrapperBody = node.body //函数包裹
-  // console.log("node.body", body)
+    // if作用域块
+    let consequent = t.blockStatement([
+      t.expressionStatement(t.callExpression(finalCallMemberExpression, finalCallParams))
+    ])
 
-  let funcBody = node.body.body //函数主体
-  // console.log("node.body.body", node.body.body)
+    // else作用域块
+    let alternate = t.blockStatement(funcBody)
+    // 新的函数体
+    let newFunctionBody = t.blockStatement([t.ifStatement(testExpression, consequent, alternate)])
 
-  let generator = node.generator  //是否是generator
-  console.log("generator", generator)
-
-  let async = node.async //是否是async
-  console.log("async", async)
-  // 判断
-  let test = ifMemberExpression
-  // if作用域块
-  let consequent = getIfBlockStatement(ifMemberExpression, funcParams)
-  // else作用域块
-  let alternate = t.blockStatement(funcBody)
-  // 箭头函数体
-  let newFunctionBody = t.blockStatement([t.ifStatement(test, consequent, alternate)])
-  // 箭头函数
-  let newFunctionDeclaration = t.functionDeclaration(funcId, funcParams, newFunctionBody, generator, async)
-
-  path.replaceWith(newFunctionDeclaration)
-
-  path.stop()
-}
-
-const visitor = {
-  FunctionDeclaration(path, state) {
-    replaceFunc(path, state)
-  },
-  FunctionExpression(path, state) {
-    replaceFunc(path, state)
+    path.get("body").replaceWith(newFunctionBody)
   }
 }
 
 
 module.exports = function (babel) {
   return {
+    name: "babel-plugin-parcel-function",
     pre(state) {
-      // console.log("pre111", state)
     },
-    visitor,
+    visitor: {
+      Program(path, state) {
+        // const scope = path.context.scope
+        const options = this.opts
+        const filename = this.file.opts.filename
+        // console.log(options, filename)
+        let memberExpression = dealOptions(options, getPathSuffix(filename))
+        path.traverse(functionVisitor, {memberExpression})
+      }
+    },
     post(state) {
-      // console.log("post111", state)
     }
   }
 }

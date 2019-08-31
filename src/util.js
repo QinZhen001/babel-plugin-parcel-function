@@ -8,7 +8,17 @@ function isArray(obj) {
 }
 
 
+function getPathSuffix(str) {
+  let match = str.match(/\S+\\(\S+?)\.\S*$/)
+  if (match && match[1]) {
+    return match[1]
+  }
+  return null
+}
+
+
 module.exports = {
   isString,
-  isArray
+  isArray,
+  getPathSuffix
 }

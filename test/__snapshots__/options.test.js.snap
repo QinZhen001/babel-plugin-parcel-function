@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`测试插件参数 addFileName 1`] = `
+"function f(aa, bb) {
+    if (global.hotUpdate.f) {
+        global.hotUpdate.f.call(this, aa, bb);
+    } else {
+        let asd = 1;
+        asd = aa + bb;
+        console.log(\\"aaa\\");
+    }
+}"
+`;
+
+exports[`测试插件参数 参数为数组 1`] = `
+"function f(aa, bb) {
+    if (aaa.bbb.ccc.ddd.f) {
+        aaa.bbb.ccc.ddd.f.call(this, aa, bb);
+    } else {
+        let asd = 1;
+        asd = aa + bb;
+        console.log(\\"aaa\\");
+    }
+}"
+`;
+
+exports[`测试插件参数 参数字符串 1`] = `
+"function f(aa, bb) {
+    if (aaa.bbb.ccc.f) {
+        aaa.bbb.ccc.f.call(this, aa, bb);
+    } else {
+        let asd = 1;
+        asd = aa + bb;
+        console.log(\\"aaa\\");
+    }
+}"
+`;

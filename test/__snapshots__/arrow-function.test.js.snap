@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`箭头函数 匿名 1`] = `
+"var _this = this;
+
+async () => {
+    if (global.hotUpdate) {
+        global.hotUpdate.call(_this);
+    } else {
+        await aaa();
+    }
+};"
+`;
+
+exports[`箭头函数 赋值 1`] = `
+"var _this = this;
+
+const success = res => {
+    if (global.hotUpdate) {
+        global.hotUpdate.call(_this, res);
+    } else {
+        console.log(res, '跳转成功');
+        return true;
+    }
+};"
+`;

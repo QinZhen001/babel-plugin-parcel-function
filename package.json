@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-plugin-tester": "^7.0.1",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "jest": "^24.9.0"

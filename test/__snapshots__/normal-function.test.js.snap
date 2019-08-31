@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`普通函数 async函数 1`] = `
+"
+async function f() {
+    if (aaa.bbb.ccc.ddd.f) {
+        aaa.bbb.ccc.ddd.f.call(this);
+    } else {
+        await aaa();
+        await bbb();
+        console.log('eee');
+        return 'ddd';
+    }
+}"
+`;
+
+exports[`普通函数 赋值 1`] = `
+"
+const test = async function (aaa, bbb) {
+    if (global.hotUpdate) {
+        global.hotUpdate.call(this, aaa, bbb);
+    } else {
+        await aaa();
+        await bbb();
+    }
+};"
+`;

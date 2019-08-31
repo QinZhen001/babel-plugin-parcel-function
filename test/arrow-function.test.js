@@ -5,55 +5,24 @@ const code1 = `async () => {
   };
 `
 
-
-const code2 = `async function f(aaa,bbb) {
-    await aaa();
-    await bbb();
+const code2 = `
+const success = (res) => {
+    console.log(res, '跳转成功');
+    return true
   }
-`
-
-// --------------------------------------
-
-
-const result1 = ` async function f() {
-          if (aaa.bbb.ccc.ddd) {
-              aaa.bbb.ccc.ddd();
-          } else {
-              await aaa();
-              await bbb();
-              console.log('eee');
-              return 'ddd';
-          }
-      }
-`
-
-const result2 = `async function f(aaa, bbb) {
-          if (aaa.bbb.ccc.ddd) {
-              aaa.bbb.ccc.ddd(aaa, bbb);
-          } else {
-              await aaa();
-              await bbb();
-          }
-      }
 `
 
 
 // -------------------------------------------
 
 describe("箭头函数", () => {
-  test("无参数", () => {
-    const res = testPlugin(code1, [], [], {
-      globalName: ["aaa", "bbb", "ccc", "ddd"]
-    })
-    console.log("result", res)
-    // expect(removeSpace(res)).toEqual(removeSpace(result1))
+  test("匿名", () => {
+    const res = testPlugin(code1, [], [], {})
+    expect(res).toMatchSnapshot();
   })
-  test("有参数", () => {
-    const res = testPlugin(code2, [], [], {
-      globalName: ["aaa", "bbb", "ccc", "ddd"]
-    })
-    // console.log("result", res)
-    // expect(removeSpace(res)).toEqual(removeSpace(result2))
+  test("赋值", () => {
+    const res = testPlugin(code2, [], [], {})
+    expect(res).toMatchSnapshot();
   })
 })
 

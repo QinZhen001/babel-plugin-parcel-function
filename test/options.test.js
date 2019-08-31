@@ -11,19 +11,21 @@ const code = `function f(aa,bb) {
 describe("测试插件参数", () => {
   test("参数为数组", () => {
     const result = testPlugin(code, [], [], {
-      globalName: ["aaa", "bbb", "ccc", "ddd"]
+      prefixName: ["aaa", "bbb", "ccc", "ddd"]
     })
-    // console.log("result", result)
+    expect(result).toMatchSnapshot();
   })
   test("参数字符串", () => {
     const result = testPlugin(code, [], [], {
-      globalName: "aaa.bbb.ccc"
+      prefixName: "aaa.bbb.ccc"
     })
-    // console.log("result", result)
+    expect(result).toMatchSnapshot();
   })
-  test("空参数", () => {
-    const result = testPlugin(code, [], [])
-    // console.log("result", result)
+  test("addFileName", () => {
+    const result = testPlugin(code, [], [], {
+      addFileName: true
+    })
+    expect(result).toMatchSnapshot();
   })
 })
 
