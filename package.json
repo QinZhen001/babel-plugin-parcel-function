@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-parcel-function",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "a babel-plugin for parcel function",
   "main": "./src/index.js",
   "scripts": {
@@ -8,6 +8,10 @@
   },
   "author": "qz",
   "license": "ISC",
+  "keywords": [
+    "babel",
+    "babel-plugin"
+  ],
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-tester": "^7.0.1",
@@ -15,5 +19,13 @@
     "babel-types": "^6.26.0",
     "jest": "^24.9.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "homepage": "https://github.com/QinZhen001/babel-plugin-parcel-function#readme",
+  "bugs": {
+    "url": "https://github.com/QinZhen001/babel-plugin-parcel-function/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QinZhen001/babel-plugin-parcel-function.git"
+  }
 }

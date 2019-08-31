@@ -7,7 +7,7 @@
 一个使用if-else包裹增强函数的babel插件
 
 
->不影响原函数的使用，可以在if中注入一些黑科技方法
+不影响原函数的使用，可以在if中注入一些黑科技方法
 
 
 ----
@@ -15,7 +15,7 @@
 
 A babel plugin that uses the if-else package enhancement function
 
->Does not affect the use of the original function, you can inject some black technology method in ifStatement
+Does not affect the use of the original function, you can inject some black technology method in ifStatement
 
 
 ## Install
@@ -28,7 +28,7 @@ npm install --save-dev babel-plugin-parcel-function
 ## Usage
 
 .babelrc
-```javascript
+```
 {
   "plugins": 
      [
@@ -90,7 +90,7 @@ async function f(arg) {
 
 when Options
 
-```javascript
+```
 {
        prefixName: "aaa.bbb.ccc",
        addFileName: false
