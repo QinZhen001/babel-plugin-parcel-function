@@ -83,7 +83,7 @@ async function f(arg) {
 
 | name        | description              | type         | default            |
 | ----------- | ------------------------ | ------------ | ------------------ |
-| prefixName  | if判断和if块中的前缀      | String|Array | "global.hotUpdate" |
+| prefixName  | if判断和if块中的前缀      | String or Array | "global.hotUpdate" |
 | addFileName | 是否将文件名添加到前缀中 | Boolean      | false              |
 
 
